@@ -1,0 +1,16 @@
+name: test
+on:
+  pull_request:
+  merge_group:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fail if a.txt and b.txt are both present (simulated semantic conflict)
+        run: |
+          echo "event=${{ github.event_name }} ref=${{ github.ref }}"; ls
+          sleep 30
+          ! { [ -f a.txt ] && [ -f b.txt ]; }
